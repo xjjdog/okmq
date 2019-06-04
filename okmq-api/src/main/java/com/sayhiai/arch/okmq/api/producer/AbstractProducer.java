@@ -37,6 +37,7 @@ public abstract class AbstractProducer {
     static {
         register("log", "com.sayhiai.arch.okmq.api.producer.ha.Ha2SimpleLog");
         register("redis", "com.sayhiai.arch.okmq.api.producer.ha.Ha2Redis");
+        register("h2", "com.sayhiai.arch.okmq.api.producer.ha.Ha2Db");
     }
 
     public static final void register(String name, String haClass) {
