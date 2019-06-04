@@ -7,7 +7,6 @@ import com.sayhiai.arch.okmq.api.producer.HaException;
 import com.sayhiai.arch.okmq.api.producer.SendResult;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
@@ -15,20 +14,20 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class OkmqKafkaProducer extends AbstractProducer {
+public class KafkaProducer extends AbstractProducer {
 
     /**
-     * @see OkmqKafkaProducer#getBackend()
+     * @see KafkaProducer#getBackend()
      */
     @Getter
-    KafkaProducer producer;
+    org.apache.kafka.clients.producer.KafkaProducer producer;
 
-    public OkmqKafkaProducer(boolean ha, String haMode) {
+    public KafkaProducer(boolean ha, String haMode) {
         super(ha, haMode);
     }
 
     public void doInit() {
-        producer = new KafkaProducer(properties);
+        producer = new org.apache.kafka.clients.producer.KafkaProducer(properties);
     }
 
     @Override

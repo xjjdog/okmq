@@ -50,8 +50,8 @@ public class ProducerBuilder {
     }
 
 
-    public OkmqKafkaProducer build() {
-        OkmqKafkaProducer producer = new OkmqKafkaProducer(this.haConfig.isHa(), this.haConfig.getHaType());
+    public KafkaProducer build() {
+        KafkaProducer producer = new KafkaProducer(this.haConfig.isHa(), this.haConfig.getHaType());
         producer.init(this.props);
         return producer;
     }
