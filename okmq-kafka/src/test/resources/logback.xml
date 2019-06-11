@@ -8,15 +8,6 @@
     </appender>
 
     <logger name="org.springframework" level="ERROR"/>
-    <logger name="com.sayhiai.example.netflix" level="ERROR"></logger>
-    <logger name="org.apache.http.impl" level="ERROR"></logger>
-    <logger name="org.apache.http.wire" level="ERROR"></logger>
-    <logger name="org.apache.http.client" level="ERROR"></logger>
-    <logger name="org.apache.http.headers" level="ERROR"></logger>
-    <logger name="org.apache.curator" level="ERROR"></logger>
-    <logger name="org.apache.zookeeper" level="ERROR"></logger>
-    <logger name="com.sayhiai.example.dxh.erp.service.api" level="ERROR"></logger>
-    <logger name="org.apache.com.sayhiai.examplemons" level="ERROR"></logger>
 
     <root>
         <level value="INFO"/>

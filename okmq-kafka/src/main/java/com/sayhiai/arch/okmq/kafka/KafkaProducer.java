@@ -86,7 +86,7 @@ public class KafkaProducer extends AbstractProducer {
     }
 
     @Override
-    public SendResult sendAsync(final Packet packet, Callback callback) {
+    public SendResult sendAsync(final Packet packet, final Callback callback) {
         if (config.isHa()) {
             try {
                 ha.preSend(packet);
