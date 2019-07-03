@@ -13,6 +13,7 @@ public class HaH2Test {
                 .any("okmq.h2.url", "jdbc:h2:file:D:/testh2/db;AUTO_SERVER=TRUE")
                 .any("okmq.h2.user", "sa")
                 .any("okmq.h2.passwd", "sa")
+//                .any("okmq.h2.dataLength", 2097152)
                 //.servers("10.30.94.8:9092")
                 .servers("localhost:9092")
                 .clientID("okMQProducerTest")

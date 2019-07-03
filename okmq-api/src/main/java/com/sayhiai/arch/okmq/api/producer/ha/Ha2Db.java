@@ -27,7 +27,9 @@ public class Ha2Db implements HA {
 
     private final static String Props_Prefix = "okmq.h2.";
 
-    private static final String INIT_DB = "CREATE TABLE okmq_msg (id VARCHAR(255) PRIMARY KEY NOT NULL,topic VARCHAR(255)  NOT NULL,content VARCHAR(4096) NOT NULL,createtime bigint(20) NOT NULL);CREATE INDEX IDX_OKMQ_CREATETIME ON okmq_msg(createtime);";
+    private final static int DEFAULT_LENGTH = 32768;
+
+    private static final String INIT_DB = "CREATE TABLE okmq_msg (id VARCHAR(255) PRIMARY KEY NOT NULL,topic VARCHAR(255)  NOT NULL,content VARCHAR(%s) NOT NULL,createtime bigint(20) NOT NULL);CREATE INDEX IDX_OKMQ_CREATETIME ON okmq_msg(createtime);";
 
     private static final String SQL_INSERT = "INSERT INTO okmq_msg VALUES('%s','%s','%s',%s)";
 
@@ -40,6 +42,8 @@ public class Ha2Db implements HA {
         dbConnection.close();
         org.h2.Driver.unload();
     }
+
+
 
     @Override
     public void configure(Properties properties) {
@@ -62,7 +66,7 @@ public class Ha2Db implements HA {
         org.h2.Driver.load();
         Connection conn = dbConnection.connect();
         try (Statement stat = conn.createStatement()) {
-            stat.execute(INIT_DB);
+            stat.execute(String.format(INIT_DB, dbConnection.getDataLength()>0?dbConnection.getDataLength():DEFAULT_LENGTH));
         } catch (SQLException e) {
             log.warn("h2 table already exist");
         }
@@ -143,6 +147,9 @@ public class Ha2Db implements HA {
         @Getter
         @Setter
         private String passwd;
+        @Getter
+        @Setter
+        private int dataLength;
         private String DRIVER_CLASS = "org.h2.Driver";
 
         private Connection connection;
