@@ -180,7 +180,7 @@ public class Ha2Db implements HA {
             dataSource.setTestWhileIdle(false);
             dataSource.setTestOnBorrow(false);
             dataSource.setTestOnReturn(false);
-            dataSource.setRemoveAbandoned(true);
+            dataSource.setRemoveAbandoned(false);
             dataSource.setRemoveAbandonedTimeout(1800);
             dataSource.setLogAbandoned(true);
             dataSource.setPoolPreparedStatements(true);
