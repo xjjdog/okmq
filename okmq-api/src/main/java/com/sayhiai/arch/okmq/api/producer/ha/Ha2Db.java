@@ -7,6 +7,7 @@ import com.sayhiai.arch.okmq.api.producer.HaException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -108,7 +109,9 @@ public class Ha2Db implements HA {
         String sql = String.format(SQL_INSERT, packet.getIdentify(), packet.getTopic(), packet.getContent(), packet.getTimestamp());
         try (Statement stat = dbConnection.getConnection().createStatement()) {
             stat.execute(sql);
-        } catch (SQLException e) {
+        }catch(JdbcSQLIntegrityConstraintViolationException e){
+            log.error("do recovery message ,please check kafka status and local network!!!");
+        }catch (SQLException e) {
             throw new HaException("okmq:h2:" + e.getMessage());
         }
     }
@@ -154,6 +157,8 @@ public class Ha2Db implements HA {
 
         private Connection connection;
 
+        private DruidDataSource dataSource;
+
         public DBConnection() {
         }
 
@@ -188,6 +193,7 @@ public class Ha2Db implements HA {
 
             try {
                 connection = dataSource.getConnection();
+                this.dataSource = dataSource;
                 return this.connection;
             } catch (SQLException e) {
                 log.error("h2 connection error", e);
@@ -196,6 +202,13 @@ public class Ha2Db implements HA {
         }
 
         public Connection getConnection() {
+            if(this.connection == null){
+                try {
+                    this.connection = this.dataSource.getConnection();
+                }catch (SQLException e) {
+                    log.error("h2 connection error", e);
+                }
+            }
             return this.connection;
         }
 
